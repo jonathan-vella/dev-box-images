@@ -36,4 +36,4 @@ keyVault:
 virtualNetwork: 
 virtualNetworkSubnet: 
 virtualNetworkResourceGroup: 
-subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+subscription: 
