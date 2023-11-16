@@ -11,29 +11,24 @@ on:
       - 'scripts/**'
       # - 'builder/**'
 
-permissions:
-  id-token: write
-  contents: read
-
-env:
-  STORAGE_ACCOUNT: contosoimagesstorage
-  RESOURCE_GROUP: rg-image-builder
-  SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-  SUBNET_ID: /subscriptions/$SUBSCRIPTION/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.Network/virtualNetworks/contoso-images-vnet/subnets/builders
-  
 jobs:
   build:
+    # runs-on: windows-latest
     runs-on: ubuntu-latest
+
+    if: "!contains(join(github.event.commits.*.message), '+nobuild')"
+
+    env:
+      RESOURCE_GROUP: rg-packer
+      STORAGE_ACCOUNT: jvpacker
+      SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      SUBNET_ID: /subscriptions/$SUBSCRIPTION/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.Network/virtualNetworks/vnet-packer/subnets/builders
+
     steps:
       - uses: actions/checkout@v2
 
-    # Authenticate to Az CLI using OIDC
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      - name: Login to Azure
+        run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
       # az cli installs bicep on demand the first time it's used
       # using the --async argument in the command below simultaniously invokes several commands that use bicep
@@ -43,4 +38,4 @@ jobs:
         run: az bicep upgrade
 
       - name: Deploy Build ACI Containers
-        run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
+        run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"

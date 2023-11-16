@@ -63,6 +63,7 @@ log.info(f'Build Suffix: {suffix}')
 
 if in_builder:
     az_client_id = os.environ.get('AZURE_CLIENT_ID', None)
+    az_client_secret = os.environ.get('AZURE_CLIENT_SECRET', None)
     az_tenant_id = os.environ.get('AZURE_TENANT_ID', None)
 
     if az_client_id and az_client_secret and az_tenant_id:

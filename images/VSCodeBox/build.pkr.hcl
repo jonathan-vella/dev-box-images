@@ -9,7 +9,6 @@ packer {
 }
 
 # https://www.packer.io/plugins/builders/azure/arm
-# To list latest SKUs Get-AzVMImageSku -Location "Central US" -PublisherName "microsoftwindowsdesktop" -Offer "windows-ent-cpc"
 source "azure-arm" "vm" {
   skip_create_image                = false
   user_assigned_managed_identities = var.identities # optional
