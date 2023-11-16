@@ -45,7 +45,6 @@ var defaultEnvironmentVars = [
   { name: 'BUILD_IMAGE_NAME', value: image }
   { name: 'AZURE_TENANT_ID', value: tenant().tenantId }
   { name: 'AZURE_CLIENT_ID', value: clientId }
-  { name: 'AZURE_CLIENT_SECRET', secureValue: clientSecret }
 ]
 
 var packerEnvironmentVars = [for kv in items(packerVars): {
