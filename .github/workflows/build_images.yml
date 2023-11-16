@@ -11,6 +11,10 @@ on:
       - 'scripts/**'
       # - 'builder/**'
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   STORAGE_ACCOUNT: contosoimagesstorage
   RESOURCE_GROUP: rg-image-builder
