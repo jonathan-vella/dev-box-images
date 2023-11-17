@@ -1,4 +1,4 @@
-name: Build VM Images
+name: Build Azure VM Images
 
 concurrency: ${{ github.ref }}
 
@@ -37,5 +37,5 @@ jobs:
       - name: Install Bicep
         run: az bicep upgrade
 
-      - name: Deploy ACI Containers for Image Builds
+      - name: Deploy ACI Containers and build VM Images
         run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
