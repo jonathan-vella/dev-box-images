@@ -31,9 +31,9 @@ offer: DevBox
 replicaLocations:
   - eastus
   - westeurope
-buildResourceGroup: 
-keyVault: 
-virtualNetwork: 
-virtualNetworkSubnet: 
-virtualNetworkResourceGroup: 
-subscription: 
+buildResourceGroup: rg-packer-eus01
+keyVault: akv-packer-eus01
+virtualNetwork: vnet-packer-eus01
+virtualNetworkSubnet: PackerSubnet
+virtualNetworkResourceGroup: rg-packer-eus01
+subscription: f018de93-49c4-4ead-96d4-b31b009c2fa4
