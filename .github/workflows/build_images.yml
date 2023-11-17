@@ -22,7 +22,7 @@ jobs:
       RESOURCE_GROUP: rg-packer-eus01
       STORAGE_ACCOUNT: jvpacker
       SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      SUBNET_ID: /subscriptions/f018de93-49c4-4ead-96d4-b31b009c2fa4/resourceGroups/rg-packer/providers/Microsoft.Network/virtualNetworks/vnet-packer-eus01/subnets/PackerSubnet
+      SUBNET_ID: /subscriptions/f018de93-49c4-4ead-96d4-b31b009c2fa4/resourceGroups/rg-packer-eus01/providers/Microsoft.Network/virtualNetworks/vnet-packer-eus01/subnets/PackerSubnet
 
     steps:
       - uses: actions/checkout@v2
