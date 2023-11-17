@@ -1,15 +1,15 @@
-name: Build Images
+name: Build VM Images
 
 concurrency: ${{ github.ref }}
 
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'images/**'
-      - 'scripts/**'
-      # - 'builder/**'
+  #push:
+    # branches: [main]
+    # paths:
+    #   - 'images/**'
+    #   - 'scripts/**'
+    #   # - 'builder/**'
 
 jobs:
   build:
@@ -34,8 +34,8 @@ jobs:
       # using the --async argument in the command below simultaniously invokes several commands that use bicep
       # so if bicep isn't already installed, the all initiate the install which throws a file busy error so we
       # execute an arbitrary az bicep command here (and get the latest updates in the process)
-      - name: Ensure Bicep
+      - name: Install Bicep
         run: az bicep upgrade
 
-      - name: Deploy Build ACI Containers
+      - name: Deploy ACI Containers for Image Builds
         run: python "./builder/build.py" --async --repository "${{ github.repositoryUrl }}" --revision "${{ github.sha }}" --token "${{ github.token }}" --client-id "${{ secrets.AZURE_CLIENT_ID }}" --client-secret "${{ secrets.AZURE_CLIENT_SECRET }}" --storage-account "${{ env.STORAGE_ACCOUNT }}" --subnet-id "${{ env.SUBNET_ID }}"
